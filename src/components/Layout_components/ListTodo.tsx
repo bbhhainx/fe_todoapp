@@ -22,7 +22,7 @@ function ListTodo(props: IProps) {
       <div>
         <ul className="flex flex-col">
           {
-            todos.map((todo) => {
+            !!todos.length && todos?.map((todo) => {
               return (
                 <li
                   key={todo.todo_id}

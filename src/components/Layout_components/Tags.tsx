@@ -6,7 +6,7 @@ interface IProps {
 }
 
 function Tags(props: IProps) {
-  const { categories } = props
+  const { categories } = props  
   return (
     <section className="text-sm p-4 w-60 border-r">
       <div className="w-full flex justify-between">
@@ -27,7 +27,7 @@ function Tags(props: IProps) {
           <p>0</p>
         </li>
         {
-          categories.map((category) => {
+          !!categories.length && categories?.map((category) => {
             return (
               <li className="flex gap-1.5 justify-between" key={category.category_id}>
                 <div className="flex gap-1.5">
