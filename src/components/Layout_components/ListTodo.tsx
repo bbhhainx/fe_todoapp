@@ -1,4 +1,11 @@
-function ListTodo() {
+import { ITodo } from "@/interface/todo"
+
+interface IProps {
+  todos: ITodo[]
+}
+
+function ListTodo(props: IProps) {
+  const { todos } = props
   return (
     <section className="flex-grow flex flex-col border-r p-4 text-sm gap-4">
       <div className="flex gap-4">
@@ -14,18 +21,19 @@ function ListTodo() {
       </div>
       <div>
         <ul className="flex flex-col">
-          <li className="cursor-pointer flex gap-1 items-center p-2 hover:bg-blue-100 rounded-md">
-            <input type="checkbox" />
-            <p>Tìm hiểu về Next</p>
-          </li>
-          <li className="cursor-pointer flex gap-1 items-center p-2 hover:bg-blue-100 rounded-md">
-            <input type="checkbox" />
-            <p>Tìm hiểu về Vue</p>
-          </li>
-          <li className="cursor-pointer flex gap-1 items-center p-2 hover:bg-blue-100 rounded-md">
-            <input type="checkbox" />
-            <p>Tìm hiểu về Nest</p>
-          </li>
+          {
+            todos.map((todo) => {
+              return (
+                <li
+                  key={todo.todo_id}
+                  className="cursor-pointer flex gap-1 items-center p-2 hover:bg-blue-100 rounded-md"
+                >
+                  <input type="checkbox" />
+                  <p>{todo.title}</p>
+                </li>
+              )
+            })
+          }
         </ul>
       </div>
     </section>

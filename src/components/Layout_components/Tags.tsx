@@ -1,6 +1,12 @@
+import { ICategory } from '@/interface'
 import Image from 'next/image'
 
-function Tags() {
+interface IProps {
+  categories: ICategory[]
+}
+
+function Tags(props: IProps) {
+  const { categories } = props
   return (
     <section className="text-sm p-4 w-60 border-r">
       <div className="w-full flex justify-between">
@@ -20,42 +26,24 @@ function Tags() {
           </div>
           <p>0</p>
         </li>
-        <li className="flex gap-1.5 justify-between">
-          <div className="flex gap-1.5">
-            <Image
-              src="/icons/tag.svg"
-              alt="tag"
-              width={14}
-              height={14}
-            ></Image>
-            <p>React</p>
-          </div>
-          <p>0</p>
-        </li>
-        <li className="flex gap-1.5 justify-between">
-          <div className="flex gap-1.5">
-            <Image
-              src="/icons/tag.svg"
-              alt="tag"
-              width={14}
-              height={14}
-            ></Image>
-            <p>Vue</p>
-          </div>
-          <p>0</p>
-        </li>
-        <li className="flex gap-1.5 justify-between">
-          <div className="flex gap-1.5">
-            <Image
-              src="/icons/tag.svg"
-              alt="tag"
-              width={14}
-              height={14}
-            ></Image>
-            <p>Nest</p>
-          </div>
-          <p>0</p>
-        </li>
+        {
+          categories.map((category) => {
+            return (
+              <li className="flex gap-1.5 justify-between" key={category.category_id}>
+                <div className="flex gap-1.5">
+                  <Image
+                    src="/icons/tag.svg"
+                    alt="tag"
+                    width={14}
+                    height={14}
+                  ></Image>
+                  <p>{category?.category_name || ''}</p>
+                </div>
+                <p>0</p>
+              </li>
+            )
+          })
+        }
       </ul>
     </section>
   )
