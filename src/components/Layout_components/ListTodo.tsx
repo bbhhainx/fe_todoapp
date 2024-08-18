@@ -1,11 +1,8 @@
-import { ITodo } from "@/interface/todo"
+import { useHomeLayout } from "@/context/HomeLayoutContext"
 
-interface IProps {
-  todos: ITodo[]
-}
-
-function ListTodo(props: IProps) {
-  const { todos } = props
+function ListTodo() {
+  // lấy todo từ context ra
+  const { todos } = useHomeLayout()
   return (
     <section className="flex-grow flex flex-col border-r p-4 text-sm gap-4">
       <div className="flex gap-4">

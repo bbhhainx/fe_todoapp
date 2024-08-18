@@ -1,30 +1,39 @@
 import HomeLayout from '@/components/Layout_components/HomeLayout'
 import { getCategory, getTodo } from '@/api/todo'
 import { ICategory, ITodo } from '@/interface'
+import { HomeLayoutProvider } from '@/context/HomeLayoutContext'
 
 interface IProps {
-  todos: ITodo[]
-  categories: ICategory[]
+  todosAPI: ITodo[]
+  categoriesAPI: ICategory[]
 }
+/** hàm call api lấy dữ liệu */
 async function getData(): Promise<IProps> {
   try {
     let res = await Promise.all([getTodo({}), getCategory({})])
-    let [todos, categories] = res
+    let [todosAPI, categoriesAPI] = res
     return {
-      todos: todos,
-      categories : categories
+      todosAPI,
+      categoriesAPI,
     }
   } catch (error) {
     console.log(error)
     return {
-      todos: [],
-      categories: []
-    } 
+      todosAPI: [],
+      categoriesAPI: [],
+    }
   }
 }
 
 export default async function Home() {
   let res = await getData()
-  let {todos, categories} = res
-  return <HomeLayout todos={todos} categories={categories}/>
+  let { todosAPI, categoriesAPI } = res
+  return (
+    <HomeLayoutProvider>
+      <HomeLayout
+        todosAPI={todosAPI}
+        categoriesAPI={categoriesAPI}
+      />
+    </HomeLayoutProvider>
+  )
 }
