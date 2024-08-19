@@ -6,8 +6,9 @@ import ListTodo from '@/components/Layout_components/ListTodo'
 import CreateEditForm from '@/components/Layout_components/CreateEditForm'
 
 import { ICategory, ITodo } from '@/interface'
-import { HomeLayoutProvider, useHomeLayout } from '@/context/HomeLayoutContext'
+import { useHomeLayout } from '@/context/HomeLayoutContext'
 import { useEffect } from 'react'
+import { removeCache } from '@/actions'
 
 interface IProps {
   todosAPI: ITodo[]
@@ -16,7 +17,7 @@ interface IProps {
 
 function HomeLayout(props: IProps) {
   const { todosAPI, categoriesAPI } = props
-  const { todos, setTodos } = useHomeLayout()
+  const { setTodos, is_call_api } = useHomeLayout()
 
   // lưu state danh sách todo từ api trả về
   useEffect(() => {

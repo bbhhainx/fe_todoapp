@@ -49,6 +49,31 @@ export async function createTodo(params: any) {
   }
 }
 
+/** cập nhật todo */
+export async function updateTodo(params: any) {
+  try {
+    return request({
+      end_point: `/todo/${params.id}`,
+      method: 'PUT',
+      ...params,
+    })
+  } catch (error) {
+    throw error
+  }
+}
+
+/** xóa todo */
+export async function deleteTodo(params: any) {
+  try {
+    return request({
+      end_point: `/todo/${params.id}`,
+      method: 'DELETE',
+      ...params,
+    })
+  } catch (error) {
+    throw error
+  }
+}
 
 /** lấy danh sách danh mục */
 export async function getCategory(params: any) {

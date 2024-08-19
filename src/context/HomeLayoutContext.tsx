@@ -7,6 +7,16 @@ import { createContext, useContext, useState } from 'react'
 const homeLayoutContextDefaultValues: IHomeLayoutContext = {
   todos: [],
   setTodos: () => {},
+  todo: {
+    title: '',
+    description: '',
+    status: 'PENDING',
+  },
+  setTodo: () => {},
+  todo_index: -1,
+  setTodoIndex: () => {},
+  is_call_api: false,
+  setIsCallApi: () => {},
 }
 
 // tạo context
@@ -27,9 +37,25 @@ type Props = {
 export function HomeLayoutProvider({ children }: Props) {
   const [todos, setTodos] = useState<ITodo[]>([])
 
+  const [todo, setTodo] = useState<ITodo>({
+    title: '',
+    description: '',
+    status: 'PENDING',
+  })
+
+  const [todo_index, setTodoIndex] = useState<number>(-1)
+
+  const [is_call_api, setIsCallApi] = useState<boolean>(false)
+
   const value = {
     todos,
     setTodos,
+    todo,
+    setTodo,
+    todo_index,
+    setTodoIndex,
+    is_call_api,
+    setIsCallApi,
   }
 
   return (

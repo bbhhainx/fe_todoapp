@@ -1,35 +1,43 @@
 'use client'
-import { useState } from 'react'
 
 import { useHomeLayout } from '@/context/HomeLayoutContext'
-import { createTodo } from '@/api/todo'
+import { createTodo, updateTodo } from '@/api/todo'
 import { removeCache } from '@/actions'
-import { ITodo } from '@/interface'
 
 function CreateEditForm() {
-  // lấy todo từ context ra
-  const { todos, setTodos } = useHomeLayout()
+  // lấy data từ context ra
+  const { todos, setTodos, todo, setTodo, todo_index, setIsCallApi } = useHomeLayout()
 
-  // state cho các input
-  const [todo, setTodo] = useState<ITodo>({
-    title: '',
-    description: '',
-    status: 'PENDING',
-  })
+  /** nội dung của nút submit */
+  const textOfButton = todo_index === -1 ? 'Tạo mới' : 'Cập nhật'
 
-  const handleCreateTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  /** hàm tạo mới hoặc sửa todo */
+  const handleCreateOrEditTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.preventDefault()
+
+      // nếu tiêu đề rỗng thì không tiếp tục nữa
       if (!todo.title) return
 
-      // call api tạo todo
-      const res = await createTodo({ body: todo })
+      // nếu bằng -1 là tạo mới còn không là tạo mới
+      if(todo_index === -1) {
+        // call api tạo todo
+        const res = await createTodo({ body: todo })
+        // lưu todo mới tạo vào mảng
+        setTodos([...todos, res])
+      }else{
+        // call api sửa todo
+        const res = await updateTodo({ body: todo, id: todo.todo_id })        
 
-      // loại bỏ cache bên server
+        // lưu todo được sửa được mảng
+        setTodos([
+          ...todos.slice(0, todo_index),
+          res,
+          ...todos.slice(todo_index + 1),
+        ])
+      }
+
       removeCache()
-
-      // lưu todo mới tạo vào mảng
-      setTodos([...todos, res])
 
       // reset các giá trị của input
       setTodo({
@@ -42,6 +50,7 @@ function CreateEditForm() {
     }
   }
 
+  
   return (
     <section className="w-96 flex-shrink-0 p-4 text-sm">
       <form className="flex flex-col gap-4">
@@ -63,10 +72,10 @@ function CreateEditForm() {
           />
         </div>
         <button
-          onClick={handleCreateTodo}
+          onClick={handleCreateOrEditTodo}
           className="bg-blue-400 text-white rounded-md p-2 w-full hover:bg-blue-700"
         >
-          Tạo mới
+          {textOfButton}
         </button>
       </form>
     </section>
